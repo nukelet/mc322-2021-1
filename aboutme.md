@@ -19,7 +19,7 @@ Some other projects I'm working on, although at a slow pace, are:
 
 My primary interests are machine learning and artificial intelligence (particularly in the context of multiagent systems).
 Recently, I've been really interested in computer architecture and emulation/virtualization as well.
-I've also been exploring Linux (particularly Arch Linux) a lot, and trying to learn how to use Vim productively.
+I've also been exploring Linux a lot (particularly Arch Linux), and trying to learn how to use Vim productively.
 
 Other than that, I'm really interested in Linguistics and Language Learning, as well as Cognitive Science and Philosophy in general.
 I enjoy listening to all kinds of music, but lately I've been fixated on Chinese/Japanese math rock (you should check out [this](https://youtu.be/PGB6BDN86Kw) and [this](https://www.youtube.com/watch?v=oQh4RMwKsFI)). I also play Overwatch and Team Fortress 2 sometimes.
