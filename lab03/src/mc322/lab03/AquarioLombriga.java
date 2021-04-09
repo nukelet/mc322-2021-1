@@ -44,12 +44,7 @@ class AquarioLombriga {
         
         return new String(str);
     }
-    
-    void print() {
-        System.out.println(apresenta());
-        return;
-    }
-    
+     
     boolean posicaoDentroLimites(int pos) {
         return 0 < pos && pos <= tamanhoAquario;
     }
