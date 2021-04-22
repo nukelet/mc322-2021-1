@@ -20,14 +20,17 @@
 ## Position
 - `Position(String pos)`
 - `public int x, y`
+- `public String toString()`
 
 ## Pawn
-- `Position pos`
-- `public isValidMove(Position pos)`
+- `Position position`
+- `public boolean isValidMove(Position position)`
+- `public void setPosition(Position position)`
 
 ## Queen
-- `int posX, posY`
-- `public isValidMove(Position pos)`
+- `Position position`
+- `public boolean isValidMove(Position position)`
+- `public void setPosition(Position position)`
 
 ## Board
 - `Piece[][] board = new Piece[8][8]`
