@@ -21,6 +21,10 @@ class Pawn {
             return false;
         }
     }
+    
+    public Position getPosition() {
+    	return position;
+    }
 
     public void setPosition(Position position) {
         if (isValidMove(position)) {
@@ -29,4 +33,19 @@ class Pawn {
             System.err.println("Invalid move: " + position.toString());
         }
     }
+    
+    public Color getColor() {
+    	return color;
+    }
+    
+    @Override
+    public String toString() {
+		switch (color) {
+		case WHITE:
+			return "b";
+		case BLACK:
+			return "p";
+		}
+		return "";
+	}
 }

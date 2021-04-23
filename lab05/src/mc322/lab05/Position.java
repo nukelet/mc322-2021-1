@@ -23,6 +23,7 @@ class Position {
         return this.y;
     }
 
+    @Override
     public String toString() {
         return strPosition;
     }
