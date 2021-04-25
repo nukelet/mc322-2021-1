@@ -133,12 +133,17 @@ public class Board {
             }
         }
 
-        sourcePiece.setPosition(destination);
-        removePieceAt(source);
-        setPieceAt(sourcePiece, destination);
+        movePiece(source, destination);
 
         return false;
 	}
+
+    private void movePiece(Position source, Position destination) {
+        Piece sourcePiece = pieceAt(source);
+        sourcePiece.setPosition(destination);
+        removePieceAt(source);
+        setPieceAt(sourcePiece, destination);
+    }
 
     private Position secondToLastPosition(Position source, Position destination) {
         int i1 = source.getI(), j1 = source.getJ();
