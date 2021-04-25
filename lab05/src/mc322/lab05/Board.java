@@ -58,7 +58,7 @@ public class Board {
 		String result = "";
 		for (int i = 7; i >= 0; i--) {
 			result += (i + 1);
-			for (int j = 7; j >= 0; j--) {
+			for (int j = 0; j <= 7; j++) {
 				result += " " + ((board[i][j] == null) ? "-" : board[i][j].toString());
 			}
 			result += "\n";
