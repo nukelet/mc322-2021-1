@@ -109,7 +109,7 @@ public class Board {
 
         // this 100% needs some kind of refactoring
         Position nearestPiecePosition = nearestPiecePosition(source, destination);
-        if (sourcePiece.type == Piece.PieceType.PAWN) {
+        if (sourcePiece.isPawn()) {
             if (source.equals(secondToLastPosition(source, destination))) {
                 // do nothing since the pawn is moving without capturing anything
             } else {
@@ -121,7 +121,7 @@ public class Board {
                     removePieceAt(nearestPiecePosition);
                 }
             }
-        } else if (sourcePiece.type == Piece.PieceType.QUEEN) {
+        } else if (sourcePiece.isQueen()) {
             if (nearestPiecePosition == null) {
                 // do nothing if there's no piece to capture
             } else if (nearestPiecePosition.equals(secondToLastPosition(source, destination))) {
