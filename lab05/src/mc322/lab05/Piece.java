@@ -27,31 +27,41 @@ public class Piece {
 	
 	public Position getPosition() {
     	switch (type) {
-    	case PAWN: 
-    		return pawn.getPosition();
-    	case QUEEN:
-    		return queen.getPosition();
+            case PAWN: 
+                return pawn.getPosition();
+            case QUEEN:
+                return queen.getPosition();
     	}
     	return null;
     }
 
     public void setPosition(Position position) {
         switch (type) {
-        case PAWN:
-        	pawn.setPosition(position);
-        	break;
-        case QUEEN:
-        	queen.setPosition(position);
-        	break;
+            case PAWN:
+                pawn.setPosition(position);
+                // pawn promotion
+                if (getColor() == Color.WHITE && position.getI() == 7) {
+                    type = PieceType.QUEEN;
+                    pawn = null;
+                    queen = new Queen(position, Color.WHITE);
+                } else if (getColor() == Color.BLACK && position.getI() == 0) {
+                    type = PieceType.QUEEN;
+                    pawn = null;
+                    queen = new Queen(position, Color.BLACK);
+                }
+                break;
+            case QUEEN:
+                queen.setPosition(position);
+                break;
         }
     }
 	
 	public Color getColor() {
 		switch (type) {
-		case PAWN:
-			return pawn.getColor();
-		case QUEEN:
-			return queen.getColor();
+            case PAWN:
+                return pawn.getColor();
+            case QUEEN:
+                return queen.getColor();
 		}
 		return null;
 	}
