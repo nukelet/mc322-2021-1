@@ -3,8 +3,8 @@ package mc322.lab05;
 import java.lang.Math;
 
 class Pawn {
-    Position position;
-    Color color;
+    private Position position;
+    private Color color;
 
     Pawn(Position position, Color color) {
         this.position = position;
