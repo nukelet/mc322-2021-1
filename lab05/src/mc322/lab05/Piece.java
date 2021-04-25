@@ -65,6 +65,16 @@ public class Piece {
 		}
 		return null;
 	}
+
+    public boolean isValidMove(Position destination) {
+        switch (type) {
+            case PAWN:
+                return pawn.isValidMove(destination);
+            case QUEEN:
+                return queen.isValidMove(destination);
+        }
+        return false;
+    }
 	
 	@Override
 	public String toString() {
