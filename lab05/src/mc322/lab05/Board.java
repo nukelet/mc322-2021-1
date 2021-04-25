@@ -34,13 +34,145 @@ public class Board {
 			}
 		}
 	}
-	
-	public boolean executeCommand(String command) {
-		Position source = new Position(command.substring(0, 2));
-		Position target = new Position(command.substring(3, 5));
-		System.out.println("Command: move from " + source.toString() + " to " + target.toString());
-		return false;
+
+
+    private Piece pieceAt(Position position) {
+        int i = position.getI();
+        int j = position.getJ();
+
+        return board[i][j];
+    }
+
+
+    private Piece pieceAt(int i, int j) {
+        return board[i][j];
+    }
+
+
+    private void setPieceAt(Piece piece, Position position) {
+        int i = position.getI(), j = position.getJ();
+        board[i][j] = piece;
+    }
+
+
+    private void setPieceAt(Piece piece, int i, int j) {
+        board[i][j] = piece;
+    }
+
+
+    private void removePieceAt(Position position) {
+        int i = position.getI(), j = position.getJ();
+        board[i][j] = null;
+    }
+
+ 
+    private void removePieceAt(int i, int j) {
+        board[i][j] = null;
+    }
+
+
+    private boolean isWithinBounds(Position position) {
+        int i = position.getI(), j = position.getJ();
+        if (i < 0 || i > 7 || j < 0 || j > 7) {
+            System.err.println("Invalid move: source out of bounds");
+            return false;
+        }
+        return true;
+    }
+
+	public boolean doMove(Position source, Position destination) {
+        System.out.printf("source: (%d, %d)\ndestination: (%d, %d)\n",
+                source.getI(), source.getJ(), destination.getI(), destination.getJ());
+        if (!isWithinBounds(source)) {
+            System.err.println("Invalid move: source out of bounds");
+            return false;
+        } else if (!isWithinBounds(destination)) {
+            System.err.println("Invalid move: destination out of bounds");
+            return false;
+        }
+        
+        if (pieceAt(source) == null) {
+            System.err.printf("Invalid move: source (%s) is empty\n", source.toString());
+            return false;
+        }
+
+        if (pieceAt(destination) != null) {
+            System.err.println("Invalid move: destination is not empty");
+            return false;
+        }
+
+        Piece sourcePiece = pieceAt(source);
+        if (!sourcePiece.isValidMove(destination)) {
+            System.err.println("Invalid move: illegal movement for source piece");
+            return false;
+        }
+
+        // this 100% needs some kind of refactoring
+        Position nearestPiecePosition = nearestPiecePosition(source, destination);
+        if (sourcePiece.type == Piece.PieceType.PAWN) {
+            if (source.equals(secondToLastPosition(source, destination))) {
+                // do nothing since the pawn is moving without capturing anything
+            } else {
+                if (nearestPiecePosition == null) {
+                    System.err.println("Invalid move: pawn must capture a piece to move two positions");
+                    return false;
+                } else {
+                    System.out.println("Removing piece at " + nearestPiecePosition.toString());
+                    removePieceAt(nearestPiecePosition);
+                }
+            }
+        } else if (sourcePiece.type == Piece.PieceType.QUEEN) {
+            if (nearestPiecePosition == null) {
+                // do nothing if there's no piece to capture
+            } else if (nearestPiecePosition.equals(secondToLastPosition(source, destination))) {
+                removePieceAt(nearestPiecePosition);
+            } else {
+                System.err.println("Invalid move: queen must capture the piece at " +
+                        nearestPiecePosition.toString());
+                return false;
+            }
+        }
+
+        sourcePiece.setPosition(destination);
+        removePieceAt(source);
+        setPieceAt(sourcePiece, destination);
+
+        return false;
 	}
+
+    private Position secondToLastPosition(Position source, Position destination) {
+        int i1 = source.getI(), j1 = source.getJ();
+        int i2 = destination.getI(), j2 = destination.getJ();
+
+        int i_offset = i2 > i1 ? 1 : -1;
+        int j_offset = j2 > j1 ? 1 : -1;
+
+        return new Position(i2 - i_offset, j2 - j_offset);
+    }
+
+    // find the nearest piece to source in the path source->destination
+    private Position nearestPiecePosition(Position source, Position destination) {
+        int i1 = source.getI(), j1 = source.getJ();
+        int i2 = destination.getI(), j2 = destination.getJ();
+
+        int offset_i = i2 > i1 ? 1 : -1;
+        int offset_j = j2 > j1 ? 1 : -1;
+        
+        int i, j;
+        boolean found = false;
+        for (i = i1 + offset_i, j = j1 + offset_j; i != i2 && j != j2; i += offset_i, j += offset_j) {
+            if (pieceAt(i, j) != null) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            return new Position(i, j);
+        } else {
+            return null;
+        }
+    }
 	
 	public String getStateString() {
 		String result = "";
