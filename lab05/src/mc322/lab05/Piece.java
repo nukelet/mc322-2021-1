@@ -66,6 +66,14 @@ public class Piece {
 		return null;
 	}
 
+    public boolean isPawn() {
+        return type == PieceType.PAWN;
+    }
+
+    public boolean isQueen() {
+        return type == PieceType.QUEEN;
+    }
+
     public boolean isValidMove(Position destination) {
         switch (type) {
             case PAWN:
