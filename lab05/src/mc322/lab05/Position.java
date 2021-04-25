@@ -1,27 +1,29 @@
 package mc322.lab05;
 
 class Position {
-    private int x, y;
-    String strPosition;
+    private int i, j;
+    private String strPosition;
 
     Position(String str) {
-        this.x = (int) str.charAt(0) - 'a';
-        this.y = (int) str.charAt(1) - '1';
+        this.j = (int) str.charAt(0) - 'a';
+        this.i = (int) str.charAt(1) - '1';
         strPosition = str;
     }
 
-    Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    Position(int i, int j) {
+        this.i = i;
+        this.j = j;
+        this.strPosition = String.format("%c%c", (char) 'a' + j, (char) '1' + i);
     }
 
-    public int getX() {
-        return this.x;
+    public int getI() {
+        return this.i;
     }
 
-    public int getY() {
-        return this.y;
+    public int getJ() {
+        return this.j;
     }
+
 
     @Override
     public String toString() {
