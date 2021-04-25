@@ -24,6 +24,13 @@ class Position {
         return this.j;
     }
 
+    public boolean equals(Position position) {
+        if (this.i == position.getI() && this.j == position.getJ()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     @Override
     public String toString() {
