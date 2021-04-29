@@ -13,6 +13,7 @@ public class AppDama {
 		
 		Board board = new Board();
 		
+		System.out.println("Initial board:");
 		System.out.println(board);
 		System.out.println();
 		result[0] = board.getStateString();
@@ -20,9 +21,11 @@ public class AppDama {
 		for (int i = 0; i < commands.length; i++) {
             String command = commands[i];
             Position source = new Position(command.substring(0, 2));
-            Position target = new Position(command.substring(3, 5));
-            System.out.println("Command: move from " + source.toString() + " to " + target.toString());
-			board.doMove(source, target);
+            Position destination = new Position(command.substring(3, 5));
+            System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
+            board.doMove(source, destination);
+            System.out.println(board);
+            System.out.println();
             result[i+1] = board.toString();
 		}	
 		return result;
@@ -40,10 +43,8 @@ public class AppDama {
                 System.err.println("Usage: mc322.lab05.AppDama --csv <path-to-csv>");
                 System.exit(1);
             }
-            String[] results = executaJogo(args[1]);
-            for (String line : results) {
-                System.out.println(line + '\n');
-            }
+
+            executaJogo(args[1]);
         } else if (args[0].equals("--console")) {
             Scanner scanner = new Scanner(System.in);
             Board board = new Board();
@@ -56,11 +57,11 @@ public class AppDama {
                 }
 
                 Position source = new Position(command.substring(0, 2));
-                Position target = new Position(command.substring(3, 5));
-                System.out.println("Command: move from " + source.toString() + " to " + target.toString());
-                board.doMove(source, target);
-
+                Position destination = new Position(command.substring(3, 5));
+                System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
+                board.doMove(source, destination);
                 System.out.println(board);
+                System.out.println();
             }
 
             scanner.close();
