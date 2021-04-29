@@ -20,6 +20,10 @@ class Position {
     public int getJ() {
         return this.j;
     }
+    
+    public boolean isWithinBounds() {
+    	return (this.i >= 0 && this.i <= 7 && this.j >= 0 && this.j <= 7);
+    }
 
     public boolean equals(Position position) {
     	return (this.i == position.getI() && this.j == position.getJ());

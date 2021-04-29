@@ -1,7 +1,7 @@
 package mc322.lab05;
 
 public class Board {
-	Piece[][] board;
+	private Piece[][] board;
 	
 	public Board() {
 		// 0 = empty, 1 = white, 2 = black
@@ -35,62 +35,32 @@ public class Board {
 		}
 	}
 
-
     private Piece pieceAt(Position position) {
-        int i = position.getI();
-        int j = position.getJ();
-
-        return board[i][j];
+    	return board[position.getI()][position.getJ()];
     }
-
-
-    private Piece pieceAt(int i, int j) {
-        return board[i][j];
-    }
-
 
     private void setPieceAt(Piece piece, Position position) {
-        int i = position.getI(), j = position.getJ();
-        board[i][j] = piece;
+    	board[position.getI()][position.getJ()] = piece;
     }
-
-
-    private void setPieceAt(Piece piece, int i, int j) {
-        board[i][j] = piece;
-    }
-
 
     private void removePieceAt(Position position) {
-        int i = position.getI(), j = position.getJ();
-        board[i][j] = null;
-    }
-
- 
-    private void removePieceAt(int i, int j) {
-        board[i][j] = null;
-    }
-
-
-    private boolean isWithinBounds(Position position) {
-        int i = position.getI(), j = position.getJ();
-        if (i < 0 || i > 7 || j < 0 || j > 7) {
-            System.err.println("Invalid move: source out of bounds");
-            return false;
-        }
-        return true;
+    	board[position.getI()][position.getJ()] = null;
     }
 
 	public boolean doMove(Position source, Position destination) {
         System.out.printf("source: (%d, %d)\ndestination: (%d, %d)\n",
                 source.getI(), source.getJ(), destination.getI(), destination.getJ());
-        if (!isWithinBounds(source)) {
+        
+        if (!source.isWithinBounds()) {
             System.err.println("Invalid move: source out of bounds");
             return false;
-        } else if (!isWithinBounds(destination)) {
+        } 
+        
+        if (!destination.isWithinBounds()) {
             System.err.println("Invalid move: destination out of bounds");
             return false;
         }
-        
+
         if (pieceAt(source) == null) {
             System.err.printf("Invalid move: source (%s) is empty\n", source.toString());
             return false;
@@ -166,7 +136,7 @@ public class Board {
         int i, j;
         boolean found = false;
         for (i = i1 + offset_i, j = j1 + offset_j; i != i2 && j != j2; i += offset_i, j += offset_j) {
-            if (pieceAt(i, j) != null) {
+            if (board[i][j] != null) {
                 found = true;
                 break;
             }
