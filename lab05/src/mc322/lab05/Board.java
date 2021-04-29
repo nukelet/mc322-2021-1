@@ -2,6 +2,7 @@ package mc322.lab05;
 
 public class Board {
 	private Piece[][] board;
+	private Color currentTurnColor;
 	
 	public Board() {
 		// 0 = empty, 1 = white, 2 = black
@@ -33,6 +34,8 @@ public class Board {
 				}
 			}
 		}
+		
+		currentTurnColor = Color.WHITE;
 	}
 
     private Piece pieceAt(Position position) {
@@ -61,50 +64,84 @@ public class Board {
             return false;
         }
 
-        if (pieceAt(source) == null) {
+        Piece sourcePiece = pieceAt(source);
+        if (sourcePiece == null) {
             System.err.printf("Invalid move: source (%s) is empty\n", source.toString());
             return false;
         }
 
+        if(sourcePiece.getColor() != currentTurnColor) {
+        	switch (currentTurnColor) {
+        	case WHITE:
+        		System.err.println("Invalid move: source is not white");
+        		return false;
+        	case BLACK:
+        		System.err.println("Invalid move: source is not black");
+        		return false;
+        	}
+        }
+        
         if (pieceAt(destination) != null) {
             System.err.println("Invalid move: destination is not empty");
             return false;
         }
-
-        Piece sourcePiece = pieceAt(source);
+        
         if (!sourcePiece.isValidMove(destination)) {
             System.err.println("Invalid move: illegal movement for source piece");
             return false;
         }
 
-        // this 100% needs some kind of refactoring
-        Position nearestPiecePosition = nearestPiecePosition(source, destination);
         if (sourcePiece.isPawn()) {
-            if (source.equals(secondToLastPosition(source, destination))) {
-                // do nothing since the pawn is moving without capturing anything
-            } else {
-                if (nearestPiecePosition == null) {
-                    System.err.println("Invalid move: pawn must capture a piece to move two positions");
-                    return false;
-                } else {
-                    System.out.println("Removing piece at " + nearestPiecePosition.toString());
-                    removePieceAt(nearestPiecePosition);
-                }
-            }
+            return doPawnMove(source, destination);
         } else if (sourcePiece.isQueen()) {
-            if (nearestPiecePosition == null) {
-                // do nothing if there's no piece to capture
-            } else if (nearestPiecePosition.equals(secondToLastPosition(source, destination))) {
-                removePieceAt(nearestPiecePosition);
-            } else {
-                System.err.println("Invalid move: queen must capture the piece at " +
-                        nearestPiecePosition.toString());
-                return false;
-            }
+        	return doQueenMove(source, destination);
         }
 
+        return false;
+	}
+	
+	private void toggleCurrentTurnColor() {
+		switch (currentTurnColor) {
+		case WHITE:
+			currentTurnColor = Color.BLACK;
+			break;
+		case BLACK:
+			currentTurnColor = Color.WHITE;
+			break;
+		}
+	}
+	
+	private boolean doPawnMove(Position source, Position destination) {
+		if (source.equals(secondToLastPosition(source, destination))) {
+            // do nothing since the pawn is moving without capturing anything
+			toggleCurrentTurnColor();
+        } else {
+        	Position nearestPiecePosition = nearestPiecePosition(source, destination);
+            if (nearestPiecePosition == null) {
+                System.err.println("Invalid move: pawn must capture a piece to move two positions");
+                return false;
+            } else {
+                System.out.println("Removing piece at " + nearestPiecePosition.toString());
+                removePieceAt(nearestPiecePosition);
+            }
+        }
+		movePiece(source, destination);
+		return true;
+	}
+	
+	private boolean doQueenMove(Position source, Position destination) {
+		Position nearestPiecePosition = nearestPiecePosition(source, destination);
+        if (nearestPiecePosition == null) {
+            // do nothing if there's no piece to capture
+        	toggleCurrentTurnColor();
+        } else if (nearestPiecePosition.equals(secondToLastPosition(source, destination))) {
+            removePieceAt(nearestPiecePosition);
+        } else {
+            System.err.println("Invalid move: queen must capture the piece at " +
+                    nearestPiecePosition.toString());
+            return false;
+        }
         movePiece(source, destination);
-
         return true;
 	}
 
