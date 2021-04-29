@@ -105,7 +105,7 @@ public class Board {
 
         movePiece(source, destination);
 
-        return false;
+        return true;
 	}
 
     private void movePiece(Position source, Position destination) {
