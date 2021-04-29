@@ -111,9 +111,143 @@ public class Board {
 		}
 	}
 	
+	private boolean hasPendingCapture() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				Piece piece = board[i][j];
+				if (piece != null && piece.getColor() == currentTurnColor) {
+					if (hasPendingCapture(piece)) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean hasPendingCapture(Piece piece) {
+		if (piece.isPawn()) {
+			return hasPendingCapture(piece.getPawn());
+		} else if (piece.isQueen()) {
+			return hasPendingCapture(piece.getQueen());
+		}
+		return false;
+	}
+	
+	private boolean hasPendingCapture(Pawn pawn) {
+		Position[] capturePositions = new Position[4];
+		capturePositions[0] = pawn.getPosition().nextNortheast(2);
+		capturePositions[1] = pawn.getPosition().nextNorthwest(2);
+		capturePositions[2] = pawn.getPosition().nextSouthwest(2);
+		capturePositions[3] = pawn.getPosition().nextSoutheast(2);
+		for (Position capturePosition : capturePositions) {
+			if (capturePosition.isWithinBounds() && pieceAt(capturePosition) == null) {
+				Piece middlePiece = pieceAt(new Position(
+						(pawn.getPosition().getI() + capturePosition.getI()) / 2, 
+						(pawn.getPosition().getJ() + capturePosition.getJ()) / 2));
+				if (middlePiece != null && middlePiece.getColor() != pawn.getColor()) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean hasPendingCapture(Queen queen) {
+		// first orientation
+		Piece nearestPiece = nearestNortheastPieceAfter(queen.getPosition());
+		if (nearestPiece != null && nearestPiece.getColor() != queen.getColor()) {
+			Position after = nearestPiece.getPosition().nextNortheast();
+			if (after.isWithinBounds() && pieceAt(after) == null) {
+				return true;
+			}
+		}
+		// second orientation
+		nearestPiece = nearestNorthwestPieceAfter(queen.getPosition());
+		if (nearestPiece != null && nearestPiece.getColor() != queen.getColor()) {
+			Position after = nearestPiece.getPosition().nextNorthwest();
+			if (after.isWithinBounds() && pieceAt(after) == null) {
+				return true;
+			}
+		}
+		// third orientation
+		nearestPiece = nearestSouthwestPieceAfter(queen.getPosition());
+		if (nearestPiece != null && nearestPiece.getColor() != queen.getColor()) {
+			Position after = nearestPiece.getPosition().nextSouthwest();
+			if (after.isWithinBounds() && pieceAt(after) == null) {
+				return true;
+			}
+		}
+		// fourth orientation
+		nearestPiece = nearestSoutheastPieceAfter(queen.getPosition());
+		if (nearestPiece != null && nearestPiece.getColor() != queen.getColor()) {
+			Position after = nearestPiece.getPosition().nextSoutheast();
+			if (after.isWithinBounds() && pieceAt(after) == null) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private Piece nearestNortheastPieceAfter(Position position) {
+		for (int k = 1; ; k++) {
+			Position other = new Position(position.getI() + k, position.getJ() + k);
+			if (!other.isWithinBounds()) {
+				return null;
+			}
+			if (pieceAt(other) != null) {
+				return pieceAt(other);
+			}
+		}
+	}
+	
+	private Piece nearestNorthwestPieceAfter(Position position) {
+		for (int k = 1; ; k++) {
+			Position other = new Position(position.getI() - k, position.getJ() + k);
+			if (!other.isWithinBounds()) {
+				return null;
+			}
+			if (pieceAt(other) != null) {
+				return pieceAt(other);
+			}
+		}
+	}
+	
+	private Piece nearestSouthwestPieceAfter(Position position) {
+		for (int k = 1; ; k++) {
+			Position other = new Position(position.getI() - k, position.getJ() - k);
+			if (!other.isWithinBounds()) {
+				return null;
+			}
+			if (pieceAt(other) != null) {
+				return pieceAt(other);
+			}
+		}
+	}
+	
+	private Piece nearestSoutheastPieceAfter(Position position) {
+		for (int k = 1; ; k++) {
+			Position other = new Position(position.getI() + k, position.getJ() - k);
+			if (!other.isWithinBounds()) {
+				return null;
+			}
+			if (pieceAt(other) != null) {
+				return pieceAt(other);
+			}
+		}
+	}
+	
 	private boolean doPawnMove(Position source, Position destination) {
 		if (source.equals(secondToLastPosition(source, destination))) {
-            // do nothing since the pawn is moving without capturing anything
+            // the pawn is moving without capturing anything
+			if (hasPendingCapture()) {
+				System.err.println("Invalid move: capture move pending");
+				return false;
+			}
+			movePiece(source, destination);
 			toggleCurrentTurnColor();
         } else {
         	Position nearestPiecePosition = nearestPiecePosition(source, destination);
@@ -123,25 +257,36 @@ public class Board {
             } else {
                 System.out.println("Removing piece at " + nearestPiecePosition.toString());
                 removePieceAt(nearestPiecePosition);
+                movePiece(source, destination);
+                if (!hasPendingCapture(pieceAt(destination))) {
+                	toggleCurrentTurnColor();
+                }
             }
         }
-		movePiece(source, destination);
 		return true;
 	}
 	
 	private boolean doQueenMove(Position source, Position destination) {
 		Position nearestPiecePosition = nearestPiecePosition(source, destination);
         if (nearestPiecePosition == null) {
-            // do nothing if there's no piece to capture
+            // there's no piece to capture
+        	if (hasPendingCapture()) {
+        		System.err.println("Invalid move: capture move pending");
+        		return false;
+        	}
+        	movePiece(source, destination);
         	toggleCurrentTurnColor();
         } else if (nearestPiecePosition.equals(secondToLastPosition(source, destination))) {
             removePieceAt(nearestPiecePosition);
+            movePiece(source, destination);
+            if (!hasPendingCapture(pieceAt(destination))) {
+            	toggleCurrentTurnColor();
+            }
         } else {
             System.err.println("Invalid move: queen must capture the piece at " +
                     nearestPiecePosition.toString());
             return false;
         }
-        movePiece(source, destination);
         return true;
 	}
 

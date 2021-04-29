@@ -21,6 +21,38 @@ class Position {
         return this.j;
     }
     
+    public Position nextNortheast(int distance) {
+    	return new Position(i + distance, j + distance);
+    }
+    
+    public Position nextNorthwest(int distance) {
+    	return new Position(i - distance, j + distance);
+    }
+    
+    public Position nextSouthwest(int distance) {
+    	return new Position(i - distance, j - distance);
+    }
+    
+    public Position nextSoutheast(int distance) {
+    	return new Position(i + distance, j - distance);
+    }
+    
+    public Position nextNortheast() {
+    	return nextNortheast(1);
+    }
+    
+    public Position nextNorthwest() {
+    	return nextNorthwest(1);
+    }
+    
+    public Position nextSouthwest() {
+    	return nextSouthwest(1);
+    }
+    
+    public Position nextSoutheast() {
+    	return nextSoutheast(1);
+    }
+    
     public boolean isWithinBounds() {
     	return (this.i >= 0 && this.i <= 7 && this.j >= 0 && this.j <= 7);
     }
