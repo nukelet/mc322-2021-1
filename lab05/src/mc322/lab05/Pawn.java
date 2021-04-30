@@ -2,15 +2,12 @@ package mc322.lab05;
 
 import java.lang.Math;
 
-class Pawn {
-    private Position position;
-    private Color color;
-
-    Pawn(Position position, Color color) {
-        this.position = position;
-        this.color = color;
+class Pawn extends Piece {
+    public Pawn(Position position, Color color) {
+        super(position, color);
     }
-
+    
+    @Override
     public boolean isValidMove(Position destination) {
         int i1 = position.getI(), j1 = position.getJ();
         int i2 = destination.getI(), j2 = destination.getJ();
@@ -40,24 +37,7 @@ class Pawn {
             return false;
         }
     }
-    
-    public Position getPosition() {
-    	return position;
-    }
-    
-    // TODO: I think this isValidMove() check should be called from the
-    // Board class, not from here
-    public void setPosition(Position position) {
-        if (isValidMove(position)) {
-            this.position = position;
-        } else {
-            System.err.println("Invalid move: " + position.toString());
-        }
-    }
-    
-    public Color getColor() {
-    	return color;
-    }
+  
     
     @Override
     public String toString() {

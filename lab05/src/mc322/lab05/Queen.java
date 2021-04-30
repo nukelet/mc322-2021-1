@@ -1,26 +1,12 @@
 package mc322.lab05;
 
-public class Queen {
-	Position position;
-	Color color;
-	
-	Queen(Position position, Color color) {
-		this.position = position;
-		this.color = color;
+public class Queen extends Piece {
+	public Queen(Position position, Color color) {
+        super(position, color);
 	}
-	
-	public Position getPosition() {
-    	return position;
-    }
 
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-	
-	public Color getColor() {
-		return color;
-	}
-	
+    
+    @Override
     public boolean isValidMove(Position destination) {
         int i1 = position.getI(), j1 = position.getJ();
         int i2 = destination.getI(), j2 = destination.getJ();
@@ -31,7 +17,8 @@ public class Queen {
             return false;
         }
     }	
-	
+
+
 	@Override
 	public String toString() {
 		switch (color) {
