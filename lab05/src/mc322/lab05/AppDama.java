@@ -48,7 +48,9 @@ public class AppDama {
         } else if (args[0].equals("--console")) {
             Scanner scanner = new Scanner(System.in);
             Board board = new Board();
+            System.out.println("Initial board:");
             System.out.println(board);
+            System.out.println();
 
             while (true) {
                 String command = scanner.nextLine();
