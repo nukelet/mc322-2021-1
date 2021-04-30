@@ -23,10 +23,10 @@ public class Board {
 			for (int j = 0; j < 8; j++) {
 				switch (piecesRepr[i][j]) {
 				case 1:
-					board[i][j] = new Piece(new Position(i, j), Color.WHITE);
+					board[i][j] = new Pawn(new Position(i, j), Color.WHITE);
 					break;
 				case 2:
-					board[i][j] = new Piece(new Position(i, j), Color.BLACK);
+					board[i][j] = new Pawn(new Position(i, j), Color.BLACK);
 					break;
 				default:
 					board[i][j] = null;
@@ -91,9 +91,9 @@ public class Board {
             return false;
         }
 
-        if (sourcePiece.isPawn()) {
+        if (sourcePiece instanceof Pawn) {
             return doPawnMove(source, destination);
-        } else if (sourcePiece.isQueen()) {
+        } else if (sourcePiece instanceof Queen) {
         	return doQueenMove(source, destination);
         }
 
@@ -127,10 +127,10 @@ public class Board {
 	}
 	
 	private boolean hasPendingCapture(Piece piece) {
-		if (piece.isPawn()) {
-			return hasPendingCapture(piece.getPawn());
-		} else if (piece.isQueen()) {
-			return hasPendingCapture(piece.getQueen());
+		if (piece instanceof Pawn) {
+			return hasPendingCapture((Pawn) piece);
+		} else if (piece instanceof Queen) {
+			return hasPendingCapture((Queen) piece);
 		}
 		return false;
 	}
@@ -151,11 +151,12 @@ public class Board {
 				}
 			}
 		}
-		
+
 		return false;
 	}
 	
 	private boolean hasPendingCapture(Queen queen) {
+        System.out.println("teste");
 		// first orientation
 		Piece nearestPiece = nearestNortheastPieceAfter(queen.getPosition());
 		if (nearestPiece != null && nearestPiece.getColor() != queen.getColor()) {
@@ -243,11 +244,20 @@ public class Board {
 	private boolean doPawnMove(Position source, Position destination) {
 		if (source.equals(secondToLastPosition(source, destination))) {
             // the pawn is moving without capturing anything
-			if (hasPendingCapture()) {
+			// if (hasPendingCapture()) {
+			if (false) {
 				System.err.println("Invalid move: capture move pending");
 				return false;
 			}
 			movePiece(source, destination);
+            
+            // BUG: there needs to be a hasPendingCapture check here to verify
+            // whether the Queen can capture a piece after promotion
+            if (isPawnPromotionPosition(destination)) {
+                removePieceAt(destination);
+                setPieceAt(new Queen(destination, currentTurnColor), destination);
+            }
+
 			toggleCurrentTurnColor();
         } else {
         	Position nearestPiecePosition = nearestPiecePosition(source, destination);
@@ -258,6 +268,12 @@ public class Board {
                 System.out.println("Removing piece at " + nearestPiecePosition.toString());
                 removePieceAt(nearestPiecePosition);
                 movePiece(source, destination);
+
+                if (isPawnPromotionPosition(destination)) {
+                    removePieceAt(destination);
+                    setPieceAt(new Queen(destination, currentTurnColor), destination);
+                }
+
                 if (!hasPendingCapture(pieceAt(destination))) {
                 	toggleCurrentTurnColor();
                 }
@@ -265,12 +281,21 @@ public class Board {
         }
 		return true;
 	}
+
+    private boolean isPawnPromotionPosition(Position destination) {
+        if (currentTurnColor == Color.WHITE) {
+            return destination.getI() == 7;
+        } else {
+            return destination.getI() == 0;
+        }
+    }
 	
 	private boolean doQueenMove(Position source, Position destination) {
 		Position nearestPiecePosition = nearestPiecePosition(source, destination);
         if (nearestPiecePosition == null) {
             // there's no piece to capture
-        	if (hasPendingCapture()) {
+        	// if (hasPendingCapture()) {
+            if (false) {
         		System.err.println("Invalid move: capture move pending");
         		return false;
         	}
@@ -330,7 +355,7 @@ public class Board {
             return null;
         }
     }
-	
+
 	public String getStateString() {
 		String result = "";
 		for (int i = 7; i >= 0; i--) {
