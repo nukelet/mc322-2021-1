@@ -10,3 +10,6 @@
     - Implement executaJogoConsole() in AppDama
     - Make Position an immutable class (`final`)
     - Command class
+
+- Remove debug messages that print to stdin (printing to stderr is fine)
+- Fix bug where the Queen is not being forced to capture a piece right after promotion (see Board.doPawnMove() for details)
