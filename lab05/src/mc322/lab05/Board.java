@@ -50,7 +50,7 @@ public class Board {
         board[position.getI()][position.getJ()] = null;
     }
 
-    public boolean doMove(Position source, Position destination) {
+    public boolean solicitaMovimento(Position source, Position destination) {
         System.out.printf("source: (%d, %d)\ndestination: (%d, %d)\n",
                 source.getI(), source.getJ(), destination.getI(), destination.getJ());
 

@@ -23,7 +23,7 @@ public class AppDama {
             Position source = new Position(command.substring(0, 2));
             Position destination = new Position(command.substring(3, 5));
             System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
-            board.doMove(source, destination);
+            board.solicitaMovimento(source, destination);
             board.imprimirTabuleiro();
             System.out.println();
             result[i+1] = board.toString();
@@ -61,7 +61,7 @@ public class AppDama {
                 Position source = new Position(command.substring(0, 2));
                 Position destination = new Position(command.substring(3, 5));
                 System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
-                board.doMove(source, destination);
+                board.solicitaMovimento(source, destination);
                 board.imprimirTabuleiro();
                 System.out.println();
             }
