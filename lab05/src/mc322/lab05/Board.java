@@ -156,7 +156,6 @@ public class Board {
     }
 
     private boolean hasPendingCapture(Queen queen) {
-        System.out.println("teste");
         // first orientation
         Piece nearestPiece = nearestNortheastPieceAfter(queen.getPosition());
         if (nearestPiece != null && nearestPiece.getColor() != queen.getColor()) {
