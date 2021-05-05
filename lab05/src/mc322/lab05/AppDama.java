@@ -26,7 +26,7 @@ public class AppDama {
             board.solicitaMovimento(source, destination);
             board.imprimirTabuleiro();
             System.out.println();
-            result[i+1] = board.toString();
+            result[i+1] = board.getStateString();
         }	
         return result;
     }
