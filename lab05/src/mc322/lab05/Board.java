@@ -244,41 +244,36 @@ public class Board {
 	private boolean doPawnMove(Position source, Position destination) {
 		if (source.equals(secondToLastPosition(source, destination))) {
             // the pawn is moving without capturing anything
-			// if (hasPendingCapture()) {
-			if (false) {
+			if (hasPendingCapture()) {
 				System.err.println("Invalid move: capture move pending");
 				return false;
 			}
+			
 			movePiece(source, destination);
-            
-            // BUG: there needs to be a hasPendingCapture check here to verify
-            // whether the Queen can capture a piece after promotion
             if (isPawnPromotionPosition(destination)) {
                 removePieceAt(destination);
                 setPieceAt(new Queen(destination, currentTurnColor), destination);
             }
-
-			toggleCurrentTurnColor();
+            toggleCurrentTurnColor();
         } else {
         	Position nearestPiecePosition = nearestPiecePosition(source, destination);
             if (nearestPiecePosition == null) {
                 System.err.println("Invalid move: pawn must capture a piece to move two positions");
                 return false;
-            } else {
-                System.out.println("Removing piece at " + nearestPiecePosition.toString());
-                removePieceAt(nearestPiecePosition);
-                movePiece(source, destination);
-
-                if (isPawnPromotionPosition(destination)) {
-                    removePieceAt(destination);
-                    setPieceAt(new Queen(destination, currentTurnColor), destination);
-                }
-
-                if (!hasPendingCapture(pieceAt(destination))) {
-                	toggleCurrentTurnColor();
-                }
+            } 
+            
+            System.out.println("Removing piece at " + nearestPiecePosition.toString());
+            removePieceAt(nearestPiecePosition);
+            movePiece(source, destination);
+            if (isPawnPromotionPosition(destination)) {
+                removePieceAt(destination);
+                setPieceAt(new Queen(destination, currentTurnColor), destination);
+            }
+            if (!hasPendingCapture(pieceAt(destination))) {
+            	toggleCurrentTurnColor();
             }
         }
+
 		return true;
 	}
 
@@ -293,15 +288,16 @@ public class Board {
 	private boolean doQueenMove(Position source, Position destination) {
 		Position nearestPiecePosition = nearestPiecePosition(source, destination);
         if (nearestPiecePosition == null) {
-            // there's no piece to capture
-        	// if (hasPendingCapture()) {
-            if (false) {
+            // the queen is moving without capturing anything
+        	if (hasPendingCapture()) {
         		System.err.println("Invalid move: capture move pending");
         		return false;
         	}
+        	
         	movePiece(source, destination);
         	toggleCurrentTurnColor();
         } else if (nearestPiecePosition.equals(secondToLastPosition(source, destination))) {
+        	System.out.println("Removing piece at " + nearestPiecePosition.toString());
             removePieceAt(nearestPiecePosition);
             movePiece(source, destination);
             if (!hasPendingCapture(pieceAt(destination))) {
@@ -312,6 +308,7 @@ public class Board {
                     nearestPiecePosition.toString());
             return false;
         }
+        
         return true;
 	}
 
