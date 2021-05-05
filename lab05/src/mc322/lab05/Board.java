@@ -356,6 +356,17 @@ public class Board {
         return result;
     }
 
+    public void imprimirTabuleiro() {
+        for (int i = 7; i >= 0; i--) {
+            System.out.print((i + 1));;
+            for (int j = 0; j <= 7; j++) {
+                System.out.print(" " + ((board[i][j] == null) ? "-" : board[i][j].toString()));;
+            }
+            System.out.println();
+        }
+        System.out.println("  a b c d e f g h");
+    }
+
     @Override
     public String toString() {
         String result = "";

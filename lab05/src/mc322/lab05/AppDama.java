@@ -14,7 +14,7 @@ public class AppDama {
         Board board = new Board();
 
         System.out.println("Initial board:");
-        System.out.println(board);
+        board.imprimirTabuleiro();
         System.out.println();
         result[0] = board.getStateString();
 
@@ -24,7 +24,7 @@ public class AppDama {
             Position destination = new Position(command.substring(3, 5));
             System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
             board.doMove(source, destination);
-            System.out.println(board);
+            board.imprimirTabuleiro();
             System.out.println();
             result[i+1] = board.toString();
         }	
@@ -49,7 +49,7 @@ public class AppDama {
             Scanner scanner = new Scanner(System.in);
             Board board = new Board();
             System.out.println("Initial board:");
-            System.out.println(board);
+            board.imprimirTabuleiro();
             System.out.println();
 
             while (true) {
@@ -62,7 +62,7 @@ public class AppDama {
                 Position destination = new Position(command.substring(3, 5));
                 System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
                 board.doMove(source, destination);
-                System.out.println(board);
+                board.imprimirTabuleiro();
                 System.out.println();
             }
 
