@@ -336,20 +336,13 @@ public class Board {
         int offset_i = i2 > i1 ? 1 : -1;
         int offset_j = j2 > j1 ? 1 : -1;
 
-        int i, j;
-        boolean found = false;
-        for (i = i1 + offset_i, j = j1 + offset_j; i != i2 && j != j2; i += offset_i, j += offset_j) {
+        for (int i = i1 + offset_i, j = j1 + offset_j; i != i2 && j != j2; i += offset_i, j += offset_j) {
             if (board[i][j] != null) {
-                found = true;
-                break;
+                return new Position(i, j);
             }
         }
 
-        if (found) {
-            return new Position(i, j);
-        } else {
-            return null;
-        }
+        return null;
     }
 
     public String getStateString() {
