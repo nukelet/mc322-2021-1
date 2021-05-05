@@ -1,11 +1,11 @@
 package mc322.lab05;
 
 public class Queen extends Piece {
-	public Queen(Position position, Color color) {
+    public Queen(Position position, Color color) {
         super(position, color);
-	}
+    }
 
-    
+
     @Override
     public boolean isValidMove(Position destination) {
         int i1 = position.getI(), j1 = position.getJ();
@@ -19,14 +19,14 @@ public class Queen extends Piece {
     }	
 
 
-	@Override
-	public String toString() {
-		switch (color) {
-		case WHITE:
-			return "B";
-		case BLACK:
-			return "P";
-		}
-		return "";
-	}
+    @Override
+    public String toString() {
+        switch (color) {
+        case WHITE:
+            return "B";
+        case BLACK:
+            return "P";
+        }
+        return "";
+    }
 }

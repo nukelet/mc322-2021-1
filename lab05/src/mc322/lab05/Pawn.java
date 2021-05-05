@@ -6,7 +6,7 @@ class Pawn extends Piece {
     public Pawn(Position position, Color color) {
         super(position, color);
     }
-    
+
     @Override
     public boolean isValidMove(Position destination) {
         int i1 = position.getI(), j1 = position.getJ();
@@ -22,7 +22,7 @@ class Pawn extends Piece {
             // black pieces always go from h->a (7->0)
             offset = -1;
         }
-        
+
         // when moving without capturing a piece
         if (Math.abs(i1 - i2) == 1 && Math.abs(j1 - j2) == 1) {
             if (i2 == i1 + offset) {
@@ -37,16 +37,16 @@ class Pawn extends Piece {
             return false;
         }
     }
-  
-    
+
+
     @Override
     public String toString() {
-		switch (color) {
-		case WHITE:
-			return "b";
-		case BLACK:
-			return "p";
-		}
-		return "";
-	}
+        switch (color) {
+        case WHITE:
+            return "b";
+        case BLACK:
+            return "p";
+        }
+        return "";
+    }
 }
