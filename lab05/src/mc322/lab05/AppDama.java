@@ -1,13 +1,11 @@
 package mc322.lab05;
 
-import java.util.Scanner;
-
 public class AppDama {
 
-    public static String[] executaJogo(String csvPath) {
-        CSVReader csvReader = new CSVReader();
-        csvReader.setDataSource(csvPath);
-        String[] commands = csvReader.requestCommands();
+    public static String[] executaJogo(String commandsCSVPath, String outCSVPath) {
+        CSVHandling csvHandling = new CSVHandling();
+        csvHandling.setDataSource(commandsCSVPath);
+        String[] commands = csvHandling.requestCommands();
 
         String[] result = new String[commands.length + 1];
 
