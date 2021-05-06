@@ -22,7 +22,7 @@ public class AppDama {
             String command = commands[i];
             Position source = new Position(command.substring(0, 2));
             Position destination = new Position(command.substring(3, 5));
-            System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
+            // System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
             board.solicitaMovimento(source, destination);
             board.imprimirTabuleiro();
             System.out.println();
