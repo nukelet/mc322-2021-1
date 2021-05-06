@@ -27,19 +27,7 @@ public class AppDama {
             result[i+1] = board.getStateString();
         }
 
-        if (args[0].equals("--csv")) {
-            if (args.length != 2) {
-                System.err.println("Usage: mc322.lab05.AppDama --csv <path-to-csv>");
-                System.exit(1);
-            }
-
-            executaJogo(args[1]);
-        } else if (args[0].equals("--console")) {
-            Scanner scanner = new Scanner(System.in);
-            Board board = new Board();
-            System.out.println("Initial board:");
-            board.imprimirTabuleiro();
-            System.out.println();
+        board.exportarArquivo(outCSVPath);
 
         return result;
     }
