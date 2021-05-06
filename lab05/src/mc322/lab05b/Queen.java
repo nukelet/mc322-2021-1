@@ -1,4 +1,4 @@
-package mc322.lab05;
+package mc322.lab05b;
 
 public class Queen extends Piece {
     public Queen(Position position, Color color) {

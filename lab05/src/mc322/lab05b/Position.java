@@ -1,4 +1,4 @@
-package mc322.lab05;
+package mc322.lab05b;
 
 class Position {
     private final int i;

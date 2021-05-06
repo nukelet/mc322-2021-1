@@ -1,4 +1,4 @@
-package mc322.lab05;
+package mc322.lab05a;
 
 import java.lang.Math;
 
