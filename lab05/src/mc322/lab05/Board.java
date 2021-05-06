@@ -261,7 +261,7 @@ public class Board {
                 return false;
             } 
 
-            System.out.println("Removing piece at " + nearestPiecePosition.toString());
+            // System.out.println("Removing piece at " + nearestPiecePosition.toString());
             removePieceAt(nearestPiecePosition);
             movePiece(source, destination);
             if (isPawnPromotionPosition(destination)) {
@@ -296,7 +296,7 @@ public class Board {
             movePiece(source, destination);
             toggleCurrentTurnColor();
         } else if (nearestPiecePosition.equals(secondToLastPosition(source, destination))) {
-            System.out.println("Removing piece at " + nearestPiecePosition.toString());
+            // System.out.println("Removing piece at " + nearestPiecePosition.toString());
             removePieceAt(nearestPiecePosition);
             movePiece(source, destination);
             if (!hasPendingCapture(pieceAt(destination))) {
