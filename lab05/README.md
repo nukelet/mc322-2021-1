@@ -18,7 +18,7 @@ The source files can be found in the [src](src/) directory, and the compiled byt
 
 If for some reason you would like to compile from source: on UNIX systems, `cd` into the `bin` folder and run the following command:
 ```
-$ javac ../src/mc322/lab05/*.java -d ../bin
+$ javac src/mc322/*/*.java -d bin/ 
 ```
 ### Running
 
@@ -26,6 +26,6 @@ $ javac ../src/mc322/lab05/*.java -d ../bin
 
 To run a game, `cd` into the `bin` folder and run the following command:
 ```
-$ java mc322.lab05.AppDama <path-to-csv> <path-to-output-file>
+$ java mc322.lab05b.AppDama <path-to-csv> <path-to-output-file>
 ```
 Where `<path-to-csv>` is the csv containing the sequence of moves to be executed (a few examples are provided in the `data` folder) and `<path-to-output-file>` is where the program will save an output file containing the final state of the board after the game is finished.
