@@ -367,6 +367,26 @@ public class Board {
         System.out.println("  a b c d e f g h");
     }
 
+    public void exportarArquivo(String outCSVPath) {
+        String[] state = new String[64];
+        for (int j = 0; j < 8; j++) {
+            for (int i = 0; i < 8; i++) {
+                Position pos = new Position(i, j);
+
+                Piece piece = pieceAt(pos);
+                String str = pos.toString();
+                str += (piece == null ? "_" : piece.toString());
+
+                int linearIndex = 8*j + i;
+                state[linearIndex] = str;
+            }
+        }
+
+        CSVHandling csvHandling = new CSVHandling();
+        csvHandling.setDataExport(outCSVPath);
+        csvHandling.exportState(state);
+    }
+
     @Override
     public String toString() {
         String result = "";
