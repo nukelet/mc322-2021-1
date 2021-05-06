@@ -16,18 +16,26 @@ public class AppDama {
         System.out.println();
         result[0] = board.getStateString();
 
+        boolean hasError = false;
         for (int i = 0; i < commands.length; i++) {
             String command = commands[i];
             Position source = new Position(command.substring(0, 2));
             Position destination = new Position(command.substring(3, 5));
             // System.out.println("Command: move from " + source.toString() + " to " + destination.toString());
-            board.solicitaMovimento(source, destination);
+            if (board.solicitaMovimento(source, destination) == false) {
+                System.out.println("Movimento invalido!");
+                hasError = true;
+            }
             board.imprimirTabuleiro();
             System.out.println();
             result[i+1] = board.getStateString();
         }
 
-        board.exportarArquivo(outCSVPath);
+        if (!hasError) {
+            board.exportarArquivo(outCSVPath);
+        } else {
+            board.exportarArquivoErro(outCSVPath);
+        }
 
         return result;
     }
