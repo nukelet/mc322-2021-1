@@ -386,6 +386,13 @@ public class Board {
         csvHandling.exportState(state);
     }
 
+    public void exportarArquivoErro(String outCSVPath) {
+        CSVHandling csvHandling = new CSVHandling();
+        csvHandling.setDataExport(outCSVPath);
+        String[] state = {"erro"};
+        csvHandling.exportState(state);
+    }
+
     @Override
     public String toString() {
         String result = "";
