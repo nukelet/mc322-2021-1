@@ -51,43 +51,42 @@ public class Board {
     }
 
     public boolean solicitaMovimento(Position source, Position destination) {
-        System.out.printf("source: (%d, %d)\ndestination: (%d, %d)\n",
-                source.getI(), source.getJ(), destination.getI(), destination.getJ());
+        System.out.printf("Source: %s\nTarget: %s\n", source, destination);
 
         if (!source.isWithinBounds()) {
-            System.err.println("Invalid move: source out of bounds");
+            // System.err.println("Invalid move: source out of bounds");
             return false;
         } 
 
         if (!destination.isWithinBounds()) {
-            System.err.println("Invalid move: destination out of bounds");
+            // System.err.println("Invalid move: destination out of bounds");
             return false;
         }
 
         Piece sourcePiece = pieceAt(source);
         if (sourcePiece == null) {
-            System.err.printf("Invalid move: source (%s) is empty\n", source.toString());
+            // System.err.printf("Invalid move: source (%s) is empty\n", source.toString());
             return false;
         }
 
         if(sourcePiece.getColor() != currentTurnColor) {
             switch (currentTurnColor) {
             case WHITE:
-                System.err.println("Invalid move: source is not white");
+                // System.err.println("Invalid move: source is not white");
                 return false;
             case BLACK:
-                System.err.println("Invalid move: source is not black");
+                // System.err.println("Invalid move: source is not black");
                 return false;
             }
         }
 
         if (pieceAt(destination) != null) {
-            System.err.println("Invalid move: destination is not empty");
+            // System.err.println("Invalid move: destination is not empty");
             return false;
         }
 
         if (!sourcePiece.isValidMove(destination)) {
-            System.err.println("Invalid move: illegal movement for source piece");
+            // System.err.println("Invalid move: illegal movement for source piece");
             return false;
         }
 
@@ -244,7 +243,7 @@ public class Board {
         if (source.equals(secondToLastPosition(source, destination))) {
             // the pawn is moving without capturing anything
             if (hasPendingCapture()) {
-                System.err.println("Invalid move: capture move pending");
+                // System.err.println("Invalid move: capture move pending");
                 return false;
             }
 
@@ -257,7 +256,7 @@ public class Board {
         } else {
             Position nearestPiecePosition = nearestPiecePosition(source, destination);
             if (nearestPiecePosition == null) {
-                System.err.println("Invalid move: pawn must capture a piece to move two positions");
+                // System.err.println("Invalid move: pawn must capture a piece to move two positions");
                 return false;
             } 
 
@@ -289,7 +288,7 @@ public class Board {
         if (nearestPiecePosition == null) {
             // the queen is moving without capturing anything
             if (hasPendingCapture()) {
-                System.err.println("Invalid move: capture move pending");
+                // System.err.println("Invalid move: capture move pending");
                 return false;
             }
 
@@ -303,8 +302,8 @@ public class Board {
                 toggleCurrentTurnColor();
             }
         } else {
-            System.err.println("Invalid move: queen must capture the piece at " +
-                    nearestPiecePosition.toString());
+            // System.err.println("Invalid move: queen must capture the piece at " +
+            //       nearestPiecePosition.toString());
             return false;
         }
 
