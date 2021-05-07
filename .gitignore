@@ -1,1 +1,5 @@
 .ipynb_checkpoints/
+.classpath
+.project
+.settings/
+/bin/
